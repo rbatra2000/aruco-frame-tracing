@@ -274,7 +274,6 @@ def process_image(img, config_frames, solve_dist=False, view=False, view_radius=
 
     return img_out, dpi
 
-
 def load_config_frames(filename):
     head, tail = os.path.split(filename)
 
@@ -288,6 +287,12 @@ def load_config_frames(filename):
 
     return config
 
+def threshold_image(img):
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img_blur = cv2.GaussianBlur(img_gray, (5, 5), 0)
+    _, img_th = cv2.threshold(img_blur, 175, 255, cv2.THRESH_BINARY)
+    img_col = cv2.cvtColor(img_th, cv2.COLOR_GRAY2BGR)
+    return img_col
 
 def main():
     args, _ = parse_arguments()
@@ -307,6 +312,7 @@ def main():
         img_out, dpi = process_image(img, config_frames,
                                      solve_dist=True, view=args.show, verbose=args.verbose, dpi=args.dpi)
 
+    img_out = threshold_image(img_out)
     if args.output == "":
         filename_out = os.path.splitext(filename_in)[0] + f"_{dpi}_DPI.png"
     else:

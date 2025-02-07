@@ -1,8 +1,17 @@
+
+# Fork Preamble
+This is a fork of the aruco-frame project by Quentin Bolsee at MIT CBA. The original repository is [here](https://gitlab.cba.mit.edu/quentinbolsee/aruco-frame).
+
+The fork connects the homography calculation to [potrace](https://potrace.sourceforge.net/), in order to convert a hand-drawn image into a svg. 
+
+To process the image, run `trace.sh <input_file> <output_file>`. Optionally, you can pass a `-k` flag to keep the intermediate files.
+
 # Aruco Frame
 
  <img src="./docs/explainer.png" width="500"/>
 
 This open source project lets you scan a drawing or image using an easy to build frame, and obtain a rectified image in real-life units. The frame exists in 3 different sizes, you can build your own by downloading the design files [here](./design).
+
 
 ## Installation
 
@@ -14,6 +23,8 @@ Steps:
 - Install dependencies:
 
 ```
+brew install imagemagick
+brew install potrace
 python -m pip install -r requirements.txt
 ```
 
@@ -24,6 +35,10 @@ python aruco-frame.py -i example/raspi.jpg
 ```
 
 ## Usage
+
+### Utilities
+`magick` to convert png to bmp. `magick <input> <output>.bmp`
+`potrace` to trace bmp to svg. `potrace <input>.bmp -o <output>.svg`
 
 ### Process an image:
 
