@@ -17,52 +17,83 @@ app = Flask(__name__)
 
 @app.route("/api/process", methods=['POST'])
 def process():
-    
-    # Call aruco-frame.py with input and output parameters
-    # input_file = request.json.get('input_file')
-    # output_file = request.json.get('output_file', '')  # Optional output filename
-    input_file = "api/examples/sample.jpg"
-    # output_file = "test"
-
-
-    # Read image file as bytes
-    with open(input_file, 'rb') as f:
-        img_data = f.read()
-    
-    # Load config file
-    with open("api/config.json", 'r') as f:
-        config_json = json.load(f)
+    try:
         
-    img, dpi = arucoFrame.process_frame(img_data, config_json)
+        # Get input file from request
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file provided'}), 400
+            
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({'error': 'No file selected'}), 400
 
-    # Convert bytes to PIL Image
-    pil_img = Image.open(io.BytesIO(img))
-    
-    # Convert to bitmap for potrace
-    bitmap = potrace.Bitmap(pil_img)
-    
-    # Create path object from bitmap
-    path = bitmap.trace()
-    
-    # Get SVG from path
+        # Get image data directly from file object
+        img_data = file.read()
 
-    svg_data = f'''<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{pil_img.width}" height="{pil_img.height}" viewBox="0 0 {pil_img.width} {pil_img.height}">'''
-    parts = []
-    for curve in path:
-        fs = curve.start_point
-        parts.append(f"M{fs.x},{fs.y}")
-        for segment in curve.segments:
-            if segment.is_corner:
-                a = segment.c
-                b = segment.end_point
-                parts.append(f"L{a.x},{a.y}L{b.x},{b.y}")
-            else:
-                a = segment.c1
-                b = segment.c2
-                c = segment.end_point
-                parts.append(f"C{a.x},{a.y} {b.x},{b.y} {c.x},{c.y}")
-        parts.append("z")
-    svg_data += f'<path stroke="none" fill="black" fill-rule="evenodd" d="{"".join(parts)}"/>'
-    svg_data += "</svg>"
+        print("TESTING1", flush=True)
+        
+        # Load config file
+        try:
+            with open("api/config.json", 'r') as f:
+                config_json = json.load(f)
+        except FileNotFoundError:
+            return jsonify({'error': 'Configuration file not found'}), 500
+        except json.JSONDecodeError:
+            return jsonify({'error': 'Invalid configuration file'}), 500
+        
+        print("TESTING2", flush=True)
+        # Process image
+        try:
+            img, dpi = arucoFrame.process_frame(img_data, config_json)
+        except Exception as e:
+            return jsonify({'error': f'Image processing failed: {str(e)}'}), 500
+        print("TESTING3", flush=True)
 
-    return svg_data
+        # Convert bytes to PIL Image
+        try:
+            pil_img = Image.open(io.BytesIO(img))
+            bitmap = potrace.Bitmap(pil_img)
+            path = bitmap.trace()
+        except Exception as e:
+            return jsonify({'error': f'Image conversion failed: {str(e)}'}), 500
+        
+        # Convert to bitmap for potrace
+        bitmap = potrace.Bitmap(pil_img)
+
+        print("TESTING4", flush=True)
+
+        
+        # Create path object from bitmap
+        path = bitmap.trace()
+
+
+        print("TESTING4", flush=True)
+        
+        # Get SVG from path
+        svg_data = f'''<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{pil_img.width}" height="{pil_img.height}" viewBox="0 0 {pil_img.width} {pil_img.height}">'''
+        parts = []
+        for curve in path:
+            fs = curve.start_point
+            parts.append(f"M{fs.x},{fs.y}")
+            for segment in curve.segments:
+                if segment.is_corner:
+                    a = segment.c
+                    b = segment.end_point
+                    parts.append(f"L{a.x},{a.y}L{b.x},{b.y}")
+                else:
+                    a = segment.c1
+                    b = segment.c2
+                    c = segment.end_point
+                    parts.append(f"C{a.x},{a.y} {b.x},{b.y} {c.x},{c.y}")
+            parts.append("z")
+        svg_data += f'<path stroke="none" fill="black" fill-rule="evenodd" d="{"".join(parts)}"/>'
+        svg_data += "</svg>"
+
+        print("TESTING5", flush=True)
+
+
+        return jsonify({'svg': svg_data}), 200
+            
+    except Exception as e:
+        return jsonify({'error': f'Unexpected error: {str(e)}'}), 500
+        
