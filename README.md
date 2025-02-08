@@ -1,77 +1,78 @@
+<p align="center">
+  <a href="https://nextjs-flask-starter.vercel.app/">
+    <img src="https://assets.vercel.com/image/upload/v1588805858/repositories/vercel/logo.png" height="96">
+    <h3 align="center">Next.js Flask Starter</h3>
+  </a>
+</p>
 
-# Fork Preamble
-This is a fork of the aruco-frame project by Quentin Bolsee at MIT CBA. The original repository is [here](https://gitlab.cba.mit.edu/quentinbolsee/aruco-frame).
+<p align="center">Simple Next.js boilerplate that uses <a href="https://flask.palletsprojects.com/">Flask</a> as the API backend.</p>
 
-The fork connects the homography calculation to [potrace](https://potrace.sourceforge.net/), in order to convert a hand-drawn image into a svg. 
+<br/>
 
-To process the image, run `trace.sh <input_file> <output_file>`. Optionally, you can pass a `-k` flag to keep the intermediate files.
+## Introduction
 
-# Aruco Frame
+This is a hybrid Next.js + Python app that uses Next.js as the frontend and Flask as the API backend. One great use case of this is to write Next.js apps that use Python AI libraries on the backend.
 
- <img src="./docs/explainer.png" width="500"/>
+## How It Works
 
-This open source project lets you scan a drawing or image using an easy to build frame, and obtain a rectified image in real-life units. The frame exists in 3 different sizes, you can build your own by downloading the design files [here](./design).
+The Python/Flask server is mapped into to Next.js app under `/api/`.
 
+This is implemented using [`next.config.js` rewrites](https://github.com/vercel/examples/blob/main/python/nextjs-flask/next.config.js) to map any request to `/api/:path*` to the Flask API, which is hosted in the `/api` folder.
 
-## Installation
+On localhost, the rewrite will be made to the `127.0.0.1:5328` port, which is where the Flask server is running.
 
-Steps:
-- Clone or download this project, and place the folder somewhere
-- Install python>3.8 ([link](https://www.python.org/downloads/))
-- Add python to your system's path ([guide](https://realpython.com/add-python-to-path/))
-- Open a terminal and navigate to the project's folder
-- Install dependencies:
+In production, the Flask server is hosted as [Python serverless functions](https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/python) on Vercel.
 
-```
-brew install imagemagick
-brew install potrace
-python -m pip install -r requirements.txt
-```
+## Demo
 
-- Test:
+https://nextjs-flask-starter.vercel.app/
 
-```
-python aruco-frame.py -i example/raspi.jpg
-```
+## Deploy Your Own
 
-## Usage
+You can clone & deploy it to Vercel with one click:
 
-### Utilities
-`magick` to convert png to bmp. `magick <input> <output>.bmp`
-`potrace` to trace bmp to svg. `potrace <input>.bmp -o <output>.svg`
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-title=Next.js%20Flask%20Starter&demo-description=Simple%20Next.js%20boilerplate%20that%20uses%20Flask%20as%20the%20API%20backend.&demo-url=https%3A%2F%2Fnextjs-flask-starter.vercel.app%2F&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F795TzKM3irWu6KBCUPpPz%2F44e0c6622097b1eea9b48f732bf75d08%2FCleanShot_2023-05-23_at_12.02.15.png&project-name=Next.js%20Flask%20Starter&repository-name=nextjs-flask-starter&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fpython%2Fnextjs-flask&from=vercel-examples-repo)
 
-### Process an image:
+## Developing Locally
 
-```
-python aruco-frame.py -i <FILENAME_IN>
+You can clone & create this repo with the following command
+
+```bash
+npx create-next-app nextjs-flask --example "https://github.com/vercel/examples/tree/main/python/nextjs-flask"
 ```
 
-If the output path is not specified with a `-o <FILENAME_OUT>` argument, the result is saved as `<FILENAME_IN>_<DPI>_DPI.png`.
+## Getting Started
 
-## User manual
+First, install the dependencies:
 
-```
-usage: aruco-frame.py [-h] [-i INPUT] [-o OUTPUT] [-d DPI] [-s] [-c CONFIG] [-v]
-
-Extracts the image from an image containing an aruco frame
-
-options:
-  -h, --help            show this help message and exit
-  -i INPUT, --input INPUT
-                        Input filename.
-  -o OUTPUT, --output OUTPUT
-                        Output filename (default: <filename_in>_<DPI>_DPI.png).
-  -d DPI, --dpi DPI     Manual output DPI (default: auto).
-  -s, --show            Show debug image.
-  -c CONFIG, --config CONFIG
-                        Frame configuration file (default: ./config/config.json).
-  -v, --verbose         Verbose mode (default: false).
+```bash
+npm install
+# or
+yarn
+# or
+pnpm install
 ```
 
-## Authors and acknowledgment
+Then, run the development server:
 
-Quentin Bolsee 2024
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+```
 
-## License
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-This project is provided under the MIT License.
+The Flask server will be running on [http://127.0.0.1:5328](http://127.0.0.1:5328) – feel free to change the port in `package.json` (you'll also need to update it in `next.config.js`).
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Flask Documentation](https://flask.palletsprojects.com/en/1.1.x/) - learn about Flask features and API.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
