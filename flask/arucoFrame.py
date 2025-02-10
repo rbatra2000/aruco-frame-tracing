@@ -287,8 +287,9 @@ def process_frame(img_data, config_json, target_dpi=None, show_debug=False, verb
     img_out = threshold_image(img_out)
     
     success, img_encoded = cv2.imencode('.png', img_out)
+    print("A4")
     if not success:
         raise RuntimeError("Failed to encode output image")
         
-    
-    return img_encoded.tobytes(), dpi
+    img_bytes = img_encoded.tobytes()
+    return img_bytes, dpi
