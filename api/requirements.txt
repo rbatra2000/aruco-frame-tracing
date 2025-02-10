@@ -1,0 +1,11 @@
+Flask==3.0.3
+Flask-Cors==5.0.0
+numpy==2.0.2
+opencv-contrib-python==4.11.0.86
+pillow==11.1.0
+platformdirs==4.3.6
+potracer==0.0.4
+scipy==1.13.1
+setuptools==75.8.0
+svgwrite==1.4.3
+wheel==0.45.1
