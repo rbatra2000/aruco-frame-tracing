@@ -262,6 +262,7 @@ def load_config_frames(config_json):
     return config
 
 def threshold_image(img):
+    print("A3.25")
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img_blur = cv2.GaussianBlur(img_gray, (5, 5), 0)
     _, img_th = cv2.threshold(img_blur, 175, 255, cv2.THRESH_BINARY)
@@ -283,7 +284,7 @@ def process_frame(img_data, config_json, target_dpi=None, show_debug=False, verb
         print("A3", flush=True)
         img_out, dpi = process_image(img_np, config_frames,
                                    solve_dist=True, view=show_debug, verbose=verbose, dpi=target_dpi)
-
+    print("B1")
     img_out = threshold_image(img_out)
     
     print("A3.5")
