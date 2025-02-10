@@ -3,11 +3,5 @@
     "env": {
       "VERCEL_ROUTER_INCLUDE": "https://98.80.77.239:8000/*"
     }
-  },
-  "rewrites": [
-    {
-      "source": "https://98.80.77.239:8000/*",
-      "destination": "http://98.80.77.239:8000/*"
-    }
-  ]
+  }
 }
