@@ -12,6 +12,7 @@ import potrace
 from PIL import Image
 import io
 from flask_cors import CORS
+import traceback
 
 app = Flask(__name__)
 CORS(app)
@@ -50,6 +51,7 @@ def process():
         try:
             img, dpi = arucoFrame.process_frame(img_data, config_json)
         except Exception as e:
+            print(traceback.format_exc())
             return jsonify({'error': f'Image processing failed: {str(e)}'}), 500
         print("STEP 3", flush=True)
 
