@@ -30,7 +30,7 @@ export default function Home() {
     formData.append("file", file);
 
     try {
-      const response = await fetch("http://127.0.0.1:5328/api/process", {
+      const response = await fetch("http://98.80.77.239:8000/api/process", {
         method: "POST",
         body: formData,
       });
