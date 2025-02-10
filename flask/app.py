@@ -103,5 +103,5 @@ def hello_world():
 
 
 if __name__ == '__main__':
-    context = ('local.crt', 'local.key')#certificate and key files
-    app.run(host="0.0.0.0", port="8000", debug=True, ssl_context=context)
+    # context = ('local.crt', 'local.key')#certificate and key files
+    app.run(host="0.0.0.0", port="8000", debug=True)#, ssl_context=context)
