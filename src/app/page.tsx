@@ -97,7 +97,7 @@ export default function Home() {
         </div>
       </div>
       <p className="text-sm text-gray-400 mt-1 mb-4 w-full max-w-2xl">
-        (1) download the frame, (2) print it, (3) draw with blank marker within
+        (1) download the frame, (2) print it, (3) draw with black marker (for best results) within
         the frame borders, (4) take a picture, and (5) upload it to this
         interface.
       </p>
