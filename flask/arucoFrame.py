@@ -270,6 +270,7 @@ def threshold_image(img):
 
 def process_frame(img_data, config_json, target_dpi=None, show_debug=False, verbose=False):
     """Main processing function that takes image data and returns processed image data"""
+    print("TESTING PROCESSING", flush=True)
     img_np = cv2.imdecode(np.frombuffer(img_data, np.uint8), cv2.IMREAD_COLOR)
     
     config_frames = load_config_frames(config_json)
