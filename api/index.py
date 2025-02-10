@@ -34,7 +34,7 @@ def process():
         
         # Load config file
         try:
-            with open("api/config.json", 'r') as f:
+            with open("config.json", 'r') as f:
                 config_json = json.load(f)
         except FileNotFoundError:
             return jsonify({'error': 'Configuration file not found'}), 500
@@ -96,4 +96,6 @@ def process():
             
     except Exception as e:
         return jsonify({'error': f'Unexpected error: {str(e)}'}), 500
-        
+
+if __name__ == '__main__':
+    app.run(port=5328)
