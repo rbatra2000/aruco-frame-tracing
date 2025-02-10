@@ -287,7 +287,7 @@ def process_frame(img_data, config_json, target_dpi=None, show_debug=False, verb
     print("B1")
     img_out = threshold_image(img_out)
 
-    if not img_out:
+    if img_out is None:
         raise RuntimeError("Failed to encode output image")
     
     print("A3.5")
