@@ -13,11 +13,13 @@ from PIL import Image
 import io
 from flask_cors import CORS
 
-
 app = Flask(__name__)
 CORS(app)
 
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 @app.route("/api/process", methods=['POST'])
+@cross_origin(headers=['Content- Type','Authorization'])
 def process():
     try:
         
