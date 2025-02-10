@@ -274,11 +274,13 @@ def process_frame(img_data, config_json, target_dpi=None, show_debug=False, verb
     img_np = cv2.imdecode(np.frombuffer(img_data, np.uint8), cv2.IMREAD_COLOR)
     
     config_frames = load_config_frames(config_json)
-    
+    print("A1", flush=True)
     if target_dpi is None or target_dpi == -1:
+        print("A2", flush=True)
         img_out, dpi = process_image(img_np, config_frames,
                                    solve_dist=True, view=show_debug, verbose=verbose)
     else:
+        print("A3", flush=True)
         img_out, dpi = process_image(img_np, config_frames,
                                    solve_dist=True, view=show_debug, verbose=verbose, dpi=target_dpi)
 

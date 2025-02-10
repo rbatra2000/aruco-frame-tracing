@@ -11,7 +11,6 @@ import subprocess
 import potrace
 from PIL import Image
 import io
-from flask_cors import CORS
 import traceback
 from flask_cors import CORS, cross_origin
 
