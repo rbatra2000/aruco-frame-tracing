@@ -30,7 +30,7 @@ export default function Home() {
     formData.append("file", file);
 
     try {
-      const response = await fetch("http://107.21.150.42:8000/api/process", {
+      const response = await fetch("https://aruapi.ritikbatra.com/api/process", {
         method: "POST",
         body: formData,
       });
