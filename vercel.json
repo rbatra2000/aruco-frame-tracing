@@ -1,0 +1,7 @@
+{
+    "build": {
+      "env": {
+        "VERCEL_ROUTER_INCLUDE": "https://98.80.77.239:8000/api/process"
+      }
+    }
+  }
