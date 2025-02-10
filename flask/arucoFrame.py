@@ -286,6 +286,7 @@ def process_frame(img_data, config_json, target_dpi=None, show_debug=False, verb
 
     img_out = threshold_image(img_out)
     
+    print("A3.5")
     success, img_encoded = cv2.imencode('.png', img_out)
     print("A4")
     if not success:
