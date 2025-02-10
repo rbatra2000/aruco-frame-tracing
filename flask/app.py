@@ -30,7 +30,7 @@ def process():
         # Get image data directly from file object
         img_data = file.read()
 
-        print("TESTING1", flush=True)
+        print("STEP 1", flush=True)
         
         # Load config file
         try:
@@ -41,13 +41,13 @@ def process():
         except json.JSONDecodeError:
             return jsonify({'error': 'Invalid configuration file'}), 500
         
-        print("TESTING2", flush=True)
+        print("STEP 2", flush=True)
         # Process image
         try:
             img, dpi = arucoFrame.process_frame(img_data, config_json)
         except Exception as e:
             return jsonify({'error': f'Image processing failed: {str(e)}'}), 500
-        print("TESTING3", flush=True)
+        print("STEP 3", flush=True)
 
         # Convert bytes to PIL Image
         try:
@@ -60,14 +60,14 @@ def process():
         # Convert to bitmap for potrace
         bitmap = potrace.Bitmap(pil_img)
 
-        print("TESTING4", flush=True)
+        print("STEP 4", flush=True)
 
         
         # Create path object from bitmap
         path = bitmap.trace()
 
 
-        print("TESTING4", flush=True)
+        print("STEP 5", flush=True)
         
         # Get SVG from path
         svg_data = f'''<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{pil_img.width}" height="{pil_img.height}" viewBox="0 0 {pil_img.width} {pil_img.height}">'''
@@ -89,7 +89,7 @@ def process():
         svg_data += f'<path stroke="none" fill="black" fill-rule="evenodd" d="{"".join(parts)}"/>'
         svg_data += "</svg>"
 
-        print("TESTING5", flush=True)
+        print("STEP 6", flush=True)
 
 
         return jsonify({'svg': svg_data}), 200
